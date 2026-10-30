@@ -1,9 +1,13 @@
 using System;
+using System.Text.Json.Serialization;
 
 public class TodoItem
 {
+    [JsonInclude]
     private string _title = "";
+    [JsonInclude]
     private bool _done;
+    [JsonInclude]
     private string _deadline = "";
 
     public TodoItem() { }
