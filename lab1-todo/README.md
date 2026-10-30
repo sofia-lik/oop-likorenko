@@ -11,6 +11,7 @@
 <img width="1165" height="1013" alt="image" src="https://github.com/user-attachments/assets/b7ce9c98-be6f-419e-8693-6e8adc00bd31" />
 (при добавлении задачи с пустым названием программа выдает ошибку)
 
+
 Чек-лист:
 
 -Основные задания:
