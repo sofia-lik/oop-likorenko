@@ -139,70 +139,75 @@ public class MainForm : Form
 
     private void CompleteButton_Click(object sender, EventArgs e)
     {
-        if (_listBox.SelectedIndex < 0)
+        if (_listBox.SelectedItem is TodoItem selectedItem)
+        {
+            _list.CompleteItem(selectedItem);
+            RefreshList();
+        }
+        else
         {
             MessageBox.Show("Выберите задачу в списке", "Ошибка",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
         }
-        _list.Complete(_listBox.SelectedIndex);
-        RefreshList();
     }
 
     private void RenameButton_Click(object sender, EventArgs e)
     {
-        if (_listBox.SelectedIndex < 0)
+        if (_listBox.SelectedItem is TodoItem selectedItem)
         {
-            MessageBox.Show("Выберите задачу в списке", "Ошибка",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
-        }
+            string currentTitle = selectedItem.Title;
 
-        string currentTitle = _list.Get(_listBox.SelectedIndex + 1).Title;
-
-        using (var form = new Form())
-        {
-            form.Text = "Переименовать";
-            form.Size = new Size(350, 150);
-            form.StartPosition = FormStartPosition.CenterParent;
-            form.FormBorderStyle = FormBorderStyle.FixedDialog;
-            form.MaximizeBox = false;
-            form.MinimizeBox = false;
-
-            var textBox = new TextBox { Text = currentTitle, Location = new Point(10, 20), Width = 310 };
-            var okBtn = new Button { Text = "OK", DialogResult = DialogResult.OK, Location = new Point(130, 60), Width = 80 };
-            var cancelBtn = new Button { Text = "Отмена", DialogResult = DialogResult.Cancel, Location = new Point(220, 60), Width = 80 };
-
-            form.Controls.AddRange(new Control[] { textBox, okBtn, cancelBtn });
-            form.AcceptButton = okBtn;
-            form.CancelButton = cancelBtn;
-
-            if (form.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(textBox.Text))
+            using (var form = new Form())
             {
-                try
+                form.Text = "Переименовать";
+                form.Size = new Size(350, 150);
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.MaximizeBox = false;
+                form.MinimizeBox = false;
+
+                var textBox = new TextBox { Text = currentTitle, Location = new Point(10, 20), Width = 310 };
+                var okBtn = new Button { Text = "OK", DialogResult = DialogResult.OK, Location = new Point(130, 60), Width = 80 };
+                var cancelBtn = new Button { Text = "Отмена", DialogResult = DialogResult.Cancel, Location = new Point(220, 60), Width = 80 };
+
+                form.Controls.AddRange(new Control[] { textBox, okBtn, cancelBtn });
+                form.AcceptButton = okBtn;
+                form.CancelButton = cancelBtn;
+
+                if (form.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(textBox.Text))
                 {
-                    _list.Rename(_listBox.SelectedIndex, textBox.Text);
-                    RefreshList();
-                }
-                catch (ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    try
+                    {
+                        _list.RenameItem(selectedItem, textBox.Text);
+                        RefreshList();
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
         }
-    }
-
-    private void DeleteButton_Click(object sender, EventArgs e)
-    {
-        if (_listBox.SelectedIndex < 0)
+        else
         {
             MessageBox.Show("Выберите задачу в списке", "Ошибка",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
         }
-        _list.Remove(_listBox.SelectedIndex);
-        RefreshList();
     }
+    private void DeleteButton_Click(object sender, EventArgs e)
+    {
+        if (_listBox.SelectedItem is TodoItem selectedItem)
+        {
+            _list.RemoveItem(selectedItem);
+            RefreshList();
+        }
+        else
+        {
+            MessageBox.Show("Выберите задачу в списке", "Ошибка",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+    }
+
 
     private void SearchBox_TextChanged(object sender, EventArgs e)
     {
