@@ -31,23 +31,31 @@ public class TodoList
         return item;
     }
 
-    public void Remove(int index)
-    {
-        _items.RemoveAt(index);
-        Save();
-    }
-
-    public void Complete(int index)
+    public void CompleteItem(TodoItem item)
+{
+    int index = _items.IndexOf(item);
+    if (index >= 0)
     {
         _items[index].Complete();
         Save();
     }
+}
 
-    public void Rename(int index, string newTitle)
+public void RemoveItem(TodoItem item)
+{
+    _items.Remove(item);
+    Save();
+}
+
+public void RenameItem(TodoItem item, string newTitle)
+{
+    int index = _items.IndexOf(item);
+    if (index >= 0)
     {
         _items[index].Rename(newTitle);
         Save();
     }
+}
 
     public TodoItem Get(int number) => _items[number - 1];
 
