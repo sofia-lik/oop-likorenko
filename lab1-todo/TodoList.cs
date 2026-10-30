@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Globalization;
 
@@ -78,26 +77,40 @@ public void RenameItem(TodoItem item, string newTitle)
     public void SetSort(SortMode mode) => _sort = mode;
     public void SetSearch(string query) => _search = query?.ToLower() ?? "";
 
-    public IReadOnlyList<TodoItem> Filtered()
-    {
-        IEnumerable<TodoItem> result = _items;
+    public List<TodoItem> Filtered()
+{
+    List<TodoItem> result = new List<TodoItem>();
 
-        if (_filter == FilterMode.Active)
-            result = result.Where(i => !i.IsDone);
-        else if (_filter == FilterMode.Done)
-            result = result.Where(i => i.IsDone);
+    foreach (TodoItem item in _items)
+    {
+        bool add = true; 
+
+        if (_filter == FilterMode.Active && item.IsDone)
+            add = false; 
+        else if (_filter == FilterMode.Done && !item.IsDone)
+            add = false; 
 
         if (!string.IsNullOrEmpty(_search))
-            result = result.Where(i => i.Title.ToLower().Contains(_search));
+        {
+            if (!item.Title.ToLower().Contains(_search))
+                add = false; 
+        }
 
-        if (_sort == SortMode.ByDeadline)
-            result = result.OrderBy(i => i.Deadline);
-        else if (_sort == SortMode.ByTitle)
-            result = result.OrderBy(i => i.Title);
-
-        return result.ToList();
+        if (add)
+            result.Add(item);
     }
 
+    if (_sort == SortMode.ByDeadline)
+    {
+        result.Sort((a, b) => a.Deadline.CompareTo(b.Deadline));
+    }
+    else if (_sort == SortMode.ByTitle)
+    {
+        result.Sort((a, b) => a.Title.CompareTo(b.Title));
+    }
+
+    return result;
+}
     public bool IsOverdue(TodoItem item)
     {
         if (string.IsNullOrEmpty(item.Deadline)) return false;
