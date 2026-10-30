@@ -6,11 +6,11 @@
 Файл с задачами сохраняется в папке bin\Debug\net8.0-windows\tasks.json.
 
 
-<img width="1168" height="1015" alt="image" src="https://github.com/user-attachments/assets/d3b75b83-4e6a-422b-94cb-f2232bb2c5b2" />
+<img width="900" height="800" alt="image" src="https://github.com/user-attachments/assets/d3b75b83-4e6a-422b-94cb-f2232bb2c5b2" />
 (Скриншот выполнения программы, красным подсвечиваются невыполненные задачи, у которых истек срок выполнения, задачи можно фильтровать по сроку и по названию, также можно выбирать, какой тип задач отображать: выполненные, активные или все. Задачи можно переименовывать и удалять)
 
 
-<img width="1165" height="1013" alt="image" src="https://github.com/user-attachments/assets/b7ce9c98-be6f-419e-8693-6e8adc00bd31" />
+<img width="900" height="800" alt="image" src="https://github.com/user-attachments/assets/b7ce9c98-be6f-419e-8693-6e8adc00bd31" />
 (при добавлении задачи с пустым названием программа выдает ошибку)
 
 
