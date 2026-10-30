@@ -18,7 +18,7 @@ public class TodoList
 
     public TodoList(string filename = "tasks.json")
     {
-        _filename = filename;
+        this._filename = filename;
         Load();
     }
 
