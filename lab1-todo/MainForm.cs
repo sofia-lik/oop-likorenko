@@ -123,20 +123,45 @@ public class MainForm : Form
     }
 
     private void AddButton_Click(object sender, EventArgs e)
+{
+    string title = _titleBox.Text.Trim();
+    string dateInput = _dateBox.Text.Trim();
+    string validDate = "";
+
+    if (!string.IsNullOrEmpty(dateInput))
     {
-        try
+        bool isValidDate = System.DateTime.TryParseExact(
+            dateInput,
+            "dd.MM.yyyy",
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.None,
+            out DateTime parsedDate);
+
+        if (!isValidDate)
         {
-            _list.Add(_titleBox.Text, _dateBox.Text);
-            _titleBox.Clear();
-            _dateBox.Clear();
-            RefreshList();
+            MessageBox.Show(
+                "Неверный формат даты!",
+                "Ошибка ввода",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+            return;
         }
-        catch (ArgumentException ex)
-        {
-            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
+
+        validDate = parsedDate.ToString("dd.MM.yyyy");
     }
 
+    try
+    {
+        _list.Add(title, validDate);
+        _titleBox.Clear();
+        _dateBox.Clear();
+        RefreshList();
+    }
+    catch (ArgumentException ex)
+    {
+        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+}
     private void CompleteButton_Click(object sender, EventArgs e)
     {
         if (_listBox.SelectedItem is TodoItem selectedItem)
