@@ -41,6 +41,6 @@ MainForm.cs - Окно чата: лента, список онлайн, поле
 
 София - отвечала за сервер: Program.cs, ChatServer.cs, ClientHandler.cs.
 
-Анастасия - отвечала за клиент: ChatClient.cs, WinFormsApp/Program.cs, LoginForm.cs, MainForm.cs.
+Анастасия - отвечала за клиент: ChatClient.cs, Program.cs, LoginForm.cs, MainForm.cs.
 
 Вместе работали над ChatMessage.cs, потому что от протокола зависят обе стороны 
